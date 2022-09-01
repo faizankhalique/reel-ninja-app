@@ -25,7 +25,7 @@ import myTheme from "./src/navigation/navigationTheme"
 const App = () => {
   return (
     <SafeAreaView style={{flex:1}}>
-      {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
+      {/* <StatusBar barStyle={false ? 'light-content' : 'dark-content'} /> */}
       <NavigationContainer
         ref={navigatorRef => {
           NavigationService.setTopLevelNavigator(navigatorRef);

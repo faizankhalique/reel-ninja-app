@@ -1,146 +1,97 @@
-import React, {useEffect} from 'react'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-// import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons'
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from 'react-native-responsive-screen'
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {getFontSize, Label10} from '../components/AppText'
-import theme from '../config/theme'
+import HomeScreen from '../screens/Home/HomeScreen';
+import ChooseAudioScreen from '../screens/ChooseAudio/ChooseAudioScreen';
+import UploadClipsScreen from '../screens/UploadClips/UploadClipsScreen';
+import AdjustScreen from '../screens/Adjust/AdjustScreen';
+import DoneScreen from '../screens/Done/DoneScreen';
+import BottomTabNavigator from './BottomTabNavigator';
+import WelcomeScreen from '../screens/Wellcome/WelcomeScreen';
+import LoginScreen from '../screens/Auth/LoginScreen';
+import SignupScreen from '../screens/Auth/SignupScreen';
+import ProfileScreen from '../screens/Profile/ProfileScreen';
+import NotificationScreen from '../screens/Notifications/NotificationScreen';
 
-import HomeStack from './HomeStack'
-import MyVideosScreen from '../screens/MyVideos/MyVideosScreen'
-import TemplatesScreen from '../screens/Templates/Templates'
-import TipsScreen from '../screens/Tips/TipsScreen'
-// import {usePushNotification} from '@hooks/usePushNotifications'
+const Stack = createNativeStackNavigator();
 
-const Tab = createBottomTabNavigator()
-const getIconStyles = (focused) => {
-  return {
-    color: focused ? theme.custom.orange : theme.custom.medium_grey,
-    fontSize: getFontSize(22),
-  }
-}
-const TabTitle = ({title, isFocused}) => (
-  <Label10
-    style={{
-      color: isFocused ? theme.custom.orange : theme.custom.medium_grey,
-    }}>
-    {title}
-  </Label10>
-)
+const AppNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="WelcomeScreen"
+      component={WelcomeScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="LoginScreen"
+      component={LoginScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="SignupScreen"
+      component={SignupScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ProfileScreen"
+      component={ProfileScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="NotificationScreen"
+      component={NotificationScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="Home"
+      component={BottomTabNavigator}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="ChooseAudioScreen"
+      component={ChooseAudioScreen}
+      options={{
+        headerShown: false,
+        animation: 'none',
+      }}
+    />
+    <Stack.Screen
+      name="UploadClipsScreen"
+      component={UploadClipsScreen}
+      options={{
+        headerShown: false,
+        animation: 'none',
+      }}
+    />
+    <Stack.Screen
+      name="AdjustScreen"
+      component={AdjustScreen}
+      options={{
+        headerShown: false,
+        animation: 'none',
+      }}
+    />
+    <Stack.Screen
+      name="DoneScreen"
+      component={DoneScreen}
+      options={{
+        headerShown: false,
+        animation: 'none',
+      }}
+    />
+  </Stack.Navigator>
+);
 
-const AppNavigator = () => {
-//   usePushNotification()
-
-  return (
-    <Tab.Navigator
-      initialRouteName={'Home'}
-      tabBarOptions={{
-        showLabel: true,
-        labelStyle: {
-          color: theme.custom.orange,
-        },
-        tabStyle: {
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingBottom: wp(2),
-        },
-        style: {
-          height: hp(8),
-          width: '100%',
-          paddingVertical: wp(1),
-          paddingHorizontal: wp(2),
-          backgroundColor: theme.custom.light_black,
-          borderTopColor: theme.custom.light_black,
-        },
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={HomeStack}
-        // options={({navigation, route}) => {
-        //   return {
-        //     tabBarIcon: ({focused}) => (
-        //       <MaterialCommunityIcons
-        //         name={focused ? 'home' : 'home-outline'}
-        //         style={getIconStyles(focused)}
-        //       />
-        //     ),
-        //     tabBarLabel: ({focused}) => (
-        //       <TabTitle title={'Home'} isFocused={focused} />
-        //     ),
-        //   }
-        // }}
-      />
-            <Tab.Screen
-        name="MyVideos"
-        component={MyVideosScreen}
-    
-      />
-            <Tab.Screen
-        name="Templates"
-        component={TemplatesScreen}
-    
-      />
-            <Tab.Screen
-        name="Tips"
-        component={TipsScreen}
-    
-      />
-      {/* <Tab.Screen
-        name="Favorites"
-        component={FavoritesStack}
-        options={({navigation, route}) => {
-          return {
-            tabBarIcon: ({focused}) => (
-              <MaterialCommunityIcons
-                name={focused ? 'heart' : 'heart-outline'}
-                style={getIconStyles(focused)}
-              />
-            ),
-            tabBarLabel: ({focused}) => (
-              <TabTitle title={'Favorites'} isFocused={focused} />
-            ),
-          }
-        }}
-      />
-      <Tab.Screen
-        name="RecentlyViewed"
-        component={RecentlyViewedStack}
-        options={({navigation, route}) => {
-          return {
-            tabBarIcon: ({focused}) => (
-              <Ionicons
-                name={focused ? 'play' : 'play-outline'}
-                style={getIconStyles(focused)}
-              />
-            ),
-            tabBarLabel: ({focused}) => (
-              <TabTitle title={'Recently View'} isFocused={focused} />
-            ),
-          }
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={SettingStack}
-        options={({navigation, route}) => {
-          return {
-            tabBarIcon: ({focused}) => (
-              <Ionicons
-                name={focused ? 'settings' : 'settings-outline'}
-                style={getIconStyles(focused)}
-              />
-            ),
-            tabBarLabel: ({focused}) => (
-              <TabTitle title={'Settings'} isFocused={focused} />
-            ),
-          }
-        }} */}
-    </Tab.Navigator>
-  )
-}
-
-export default AppNavigator
+export default AppNavigator;
