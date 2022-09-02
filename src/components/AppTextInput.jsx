@@ -7,6 +7,7 @@ import {
   } from 'react-native-responsive-screen'
 
 import theme from '../config/theme'
+import { getFontSize } from './AppText'
 
 const AppTextInput= ({
   icon,
@@ -82,13 +83,14 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       width: '100%',
-      height:wp(10),
+      // height:wp(10),
+
       paddingHorizontal: wp(4),
       marginVertical: wp(3),
       borderColor: theme.custom.green,
       borderWidth: 1,
       borderRadius:wp(1),
-      backgroundColor:"white"
+      backgroundColor:"white",
     },
     icon: {
       marginRight: 12,
@@ -97,6 +99,8 @@ const styles = StyleSheet.create({
     textInput: {
       flex: 1,
       color: 'black',
+      fontSize:getFontSize(12),
+      height:wp(10),
     },
     eye: {
       marginLeft: 12,

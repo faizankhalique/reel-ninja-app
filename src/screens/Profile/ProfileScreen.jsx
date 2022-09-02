@@ -14,20 +14,21 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-import {Label20, Label16, Label12} from '../../components/AppText';
+import {Label20, Label16, Label12,Label11Light} from '../../components/AppText';
 import AppTextInput from '../../components/AppTextInput';
 import AppButton from '../../components/AppButton';
 import theme from '../../config/theme';
 import NavigationService from '../../navigation/NavigationService';
-
-const ProfileScreen = () => {
-  //   const {isKeyboardVisible} = useKeyboard()
+import {useKeyboard} from '../../hooks/useKeyBoard';
+const ProfileScreen = ({route}) => {
+  console.log('route :>> ', route?.params);
+  const {isKeyboardVisible} = useKeyboard();
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('');
   const [industry, setIndustry] = useState('');
   const [country, setCountry] = useState('');
   const [open, setOpen] = useState(false);
-  const [gender, setGender] = useState('Male');
+  const [gender, setGender] = useState('');
   const [items, setItems] = useState([
     {label: 'Male', value: 'Male'},
     {label: 'Female', value: 'Female'},
@@ -36,13 +37,37 @@ const ProfileScreen = () => {
   const [dateShow, setDateShow] = useState();
   const [showCalender, setCalender] = useState(false);
   const [value, setValue] = useState(null);
+  const [error, setError] = useState('');
   const handleSubmit = () => {
-    setName('');
-    setProfession('');
-    setIndustry('');
-    setCountry('');
-    setDate('');
-    NavigationService.navigate('Home', {});
+    if (!name) {
+      setError('Please enter  name');
+      return;
+    }
+    if (!profession) {
+      setError('Please enter profession');
+      return;
+    }
+    if (!industry) {
+      setError('Please enter valid industry');
+      return;
+    } else if (!country) {
+      setError('Please enter country');
+      return;
+    } else if (!gender) {
+      setError('Please select gender');
+      return;
+    } else if (!date) {
+      setError('Password select date of birth.');
+      return;
+    } else {
+      setError('');
+      setName('');
+      setProfession('');
+      setIndustry('');
+      setCountry('');
+      setDate('');
+      NavigationService.navigate('Home', {});
+    }
   };
   const hideDatePicker = () => {
     setCalender(false);
@@ -71,14 +96,19 @@ const ProfileScreen = () => {
           paddingHorizontal: wp(4),
           paddingVertical: wp(4),
         }}>
-        <TouchableOpacity onPress={() => NavigationService.goBack()}>
+        {route?.params?.signUp?
+         
+          <Label16 onPress={() => NavigationService.navigate("Home",null)} style={{color: 'white', fontWeight: 'bold'}}>Skip</Label16>:
+        
+          <TouchableOpacity onPress={() => NavigationService.goBack()}>
           <Image
             style={{height: wp(8), width: wp(8)}}
             resizeMode="contain"
             source={require('../../assets/white_x.png')}
           />
         </TouchableOpacity>
-<Label16 style={{color:"white",fontWeight:"bold"}}>Profile</Label16>
+        }
+        <Label16 style={{color: 'white', fontWeight: 'bold'}}>Profile</Label16>
         <TouchableOpacity onPress={handleSubmit}>
           <Image
             style={{height: wp(8), width: wp(8)}}
@@ -95,7 +125,7 @@ const ProfileScreen = () => {
             height: wp(20),
             width: wp(20),
             borderRadius: wp(10),
-            top: wp(-9),
+            top: isKeyboardVisible ? wp(1) : wp(-9),
           }}
         />
         <AppTextInput
@@ -103,29 +133,28 @@ const ProfileScreen = () => {
           autoCorrect={false}
           placeholder={'Name'}
           value={name}
-          onChangeText={val => setName(val)}
+          onChangeText={val => {setName(val);setError("")}}
         />
         <AppTextInput
           autoCapitalize={'none'}
           autoCorrect={false}
-          keyboardType="email-address"
           placeholder={'Profession'}
           value={profession}
-          onChangeText={val => setProfession(val)}
+          onChangeText={val => {setProfession(val);setError("")}}
         />
         <AppTextInput
           autoCapitalize={'none'}
           autoCorrect={false}
           placeholder={'Industry'}
           value={industry}
-          onChangeText={val => setIndustry(val)}
+          onChangeText={val => {setIndustry(val);setError("");}}
         />
         <AppTextInput
           autoCapitalize={'none'}
           autoCorrect={false}
           placeholder={'Country'}
           value={country}
-          onChangeText={val => setCountry(val)}
+          onChangeText={val => {setCountry(val);setError("");}}
         />
         {/* <DateTimePicker value={new Date()} maximumDate={new Date(2300, 10, 20)} /> */}
         <TouchableOpacity
@@ -159,6 +188,7 @@ const ProfileScreen = () => {
             mode="date"
             onConfirm={date => {
               onDateChange(date);
+              setError("");
             }}
             onCancel={hideDatePicker}
           />
@@ -175,6 +205,7 @@ const ProfileScreen = () => {
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
+          dropDownDirection={"BOTTOM"}
           style={{
             backgroundColor: 'white',
             borderColor: theme.custom.green,
@@ -183,15 +214,14 @@ const ProfileScreen = () => {
             marginVertical: wp(3),
           }}
           onSelectItem={item => {
-            console.log(item);
             setGender(item.value);
-            // setGenderErr(false);
+            setError("");
           }}
           placeholder={'Gender'}
           placeholderStyle={{color: '#636F82'}}
           labelStyle={{color: 'black'}}
           dropDownContainerStyle={{
-            backgroundColor: theme.custom.light_green,
+            backgroundColor: theme.custom.white,
             color: 'black',
           }}
           listItemLabelStyle={{
@@ -208,6 +238,7 @@ const ProfileScreen = () => {
             borderWidth: 1,
           }}
         />
+         {error && <Label11Light style={{color: 'red'}}>{error}</Label11Light>}
         {/* <AppButton
           title="Save"
           onPress={handleSubmit}
@@ -239,7 +270,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    paddingTop: wp(16),
+    paddingTop: wp(14),
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',

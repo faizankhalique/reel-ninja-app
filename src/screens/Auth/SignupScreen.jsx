@@ -10,29 +10,57 @@ import {
 // import {axiosInstance} from '@api/axios'
 // import {SignupScreenStyles as styles} from '@styles/SignupScreenStyles'
 // import AppCustomLogo from '@components/AppCustomLogo'
-import {Label20, Label13, Label12} from '../../components/AppText'
+import {Label20, Label13, Label12,Label11Light} from '../../components/AppText'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
 import theme from '../../config/theme'
 import NavigationService from '../../navigation/NavigationService'
 // import AppSpinner from '@components/AppSpinner'
 // import {isValidEmail} from '@helpers/utilHelper'
-// import {useKeyboard} from '@hooks/useKeyboard'
+
+import { isValidEmail } from '../../helpers/utilHelper';
 
 
 
 const SignupScreen = () => {
-//   const {isKeyboardVisible} = useKeyboard()
+  // const {isKeyboardVisible} = useKeyboard()
 const [name,setName]=useState("");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
   const handleSubmit = () => {
+    if (!name) {
+      setError('Please enter full name');
+      return;
+    }
+    if (!email) {
+      setError('Please enter email');
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setError('Please enter valid email');
+      return;
+    } else if (!password) {
+      setError('Please enter password');
+      return;
+    }
+    else if (!confirmPassword) {
+      setError('Please enter confirm password');
+      return;
+    }
+    else if (password!=confirmPassword) {
+      setError('Password and confirm password should be same.');
+      return;
+    }
+     else {
+  setError("");
     setName("");
     setEmail("");
     setPassword("");
-    setConfirmPassword("")
-    NavigationService.navigate('ProfileScreen', {})
+    setConfirmPassword("");
+    NavigationService.navigate('ProfileScreen', {signUp:true})
+    }
 };
   
   return (
@@ -49,7 +77,7 @@ const [name,setName]=useState("");
         //   keyboardType="email-address"
           placeholder={'Full Name'}
           value={name}
-          onChangeText={(val) => setName(val)}
+          onChangeText={(val) =>{ setName(val);setError("")}}
         />
         <AppTextInput
           autoCapitalize={'none'}
@@ -58,7 +86,7 @@ const [name,setName]=useState("");
           keyboardType="email-address"
           placeholder={'Email Address'}
           value={email}
-          onChangeText={(val) => setEmail(val)}
+          onChangeText={(val) => {setEmail(val);setError("")}}
         />
         <AppTextInput
           autoCapitalize={'none'}
@@ -67,7 +95,7 @@ const [name,setName]=useState("");
           placeholder={'Password'}
           password
           value={password}
-          onChangeText={(val) => setPassword(val)}
+          onChangeText={(val) => {setPassword(val);setError("")}}
         />
        <AppTextInput
           autoCapitalize={'none'}
@@ -76,8 +104,9 @@ const [name,setName]=useState("");
           placeholder={'Confirm Password'}
           password
           value={confirmPassword}
-          onChangeText={(val) => setConfirmPassword(val)}
+          onChangeText={(val) =>{ setConfirmPassword(val);setError("")}}
         />
+         {error && <Label11Light style={{color: 'red'}}>{error}</Label11Light>}
         <AppButton
           title="Save"
           onPress={handleSubmit}
