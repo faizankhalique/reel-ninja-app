@@ -122,10 +122,10 @@ export function Label14Light(props) {
   return <Text {...props} style={[textStyles.label14Light, props.style]} />
 }
 export function Label13(props) {
-  return <Text {...props} style={[textStyles.label13, props.style]} />
+  return <Text {...props} style={[textStyles.label12, props.style]} />
 }
 export function Label13Light(props) {
-  return <Text {...props} style={[textStyles.label12Light, props.style]} />
+  return <Text {...props} style={[textStyles.label13Light, props.style]} />
 }
 export function Label12(props) {
   return <Text {...props} style={[textStyles.label12, props.style]} />

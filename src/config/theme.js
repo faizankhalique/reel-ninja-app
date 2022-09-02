@@ -36,7 +36,7 @@ export default {
     primary: PRIMARY_COLOR,
   },
   text: {
-    label: WHITE,
+    label: BLACK,
     labelWhite: WHITE,
     labelGrey: TEXTCOLOR_DARKGREY,
     primaryLabel: PRIMARY_COLOR,
@@ -98,5 +98,7 @@ export default {
     purple: PURPLE,
     orange: ORANGE,
     gray: GRAY,
+    light_green:"#00CCC0",
+    green:"#1A7F79"
   },
 }
