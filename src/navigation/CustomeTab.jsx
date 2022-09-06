@@ -17,7 +17,7 @@ export default function CustomTab({
   title,
 }) {
   return (
-    <View style={{width:wp(16),paddingTop:wp(2),alignItems: 'center',borderTopColor:isFocused ? theme.custom.light_green : theme.custom.light_grey,borderTopWidth:isFocused ? 2.5 : 0}}>
+    <View style={{width:wp(17),paddingTop:wp(2),alignItems: 'center',borderTopColor:isFocused ? theme.custom.light_green : theme.custom.light_grey,borderTopWidth:isFocused ? 2.5 : 0}}>
       {isFocused ? (
         <Image
           source={activeImage}
@@ -33,7 +33,7 @@ export default function CustomTab({
       )}
       <Text
         style={{
-          fontSize: getFontSize(11),
+          fontSize: getFontSize(10),
           marginTop: wp(1),
           color: isFocused ? theme.custom.light_green : theme.custom.light_grey,
         }}>
