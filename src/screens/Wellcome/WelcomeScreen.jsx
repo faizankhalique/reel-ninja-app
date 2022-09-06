@@ -43,7 +43,7 @@ function WelcomeScreen(props) {
           
                
                 <Label19 style={{color:"white",fontWeight:"400",fontSize:getFontSize(28),marginTop:wp(4)}}>REELS NINJA</Label19>
-                <Label13 style={{color:"white",paddingHorizontal:wp(15),textAlign:"center",marginVertical:wp(2)}}>{"Start creating engaging short videos for reels & tiktok\n within 5 mints"}</Label13>
+                <Label13 style={{color:"white",textAlign:"center",marginVertical:wp(2)}}>{"Start creating engaging short\nvideos for reels & tiktok\n within 5 mints"}</Label13>
                 <Animated.View style={[{
                   // marginTop:topValue,
                   opacity:opacity
