@@ -269,11 +269,6 @@ PODS:
     - glog
     - RCT-Folly (= 2021.06.28.00-v2)
     - React-jsi/Default (= 0.69.4)
-  - React-jsi/Default (0.69.4):
-    - boost (= 1.76.0)
-    - DoubleConversion
-    - glog
-    - RCT-Folly (= 2021.06.28.00-v2)
   - React-jsiexecutor (0.69.4):
     - DoubleConversion
     - glog
@@ -569,6 +564,6 @@ SPEC CHECKSUMS:
   Yoga: ff994563b2fd98c982ca58e8cd9db2cdaf4dda74
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 47f536a47394021852459891175cf1b7d850435c
+PODFILE CHECKSUM: 16f734c774206198bed8ee8cd05a716782892ca9
 
 COCOAPODS: 1.11.2
