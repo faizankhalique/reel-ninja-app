@@ -12,7 +12,13 @@ export default function AppHeader({title, image, onImagePress, step}) {
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity onPress={onImagePress}>
+        <TouchableOpacity
+          onPress={onImagePress}
+          style={{
+            height: wp(10),
+            width: wp(16),
+            justifyContent: 'center',
+          }}>
           <Image
             source={image}
             resizeMode="contain"

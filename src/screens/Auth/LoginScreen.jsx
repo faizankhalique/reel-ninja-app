@@ -1,5 +1,12 @@
-import React, {useState, useContext} from 'react';
-import {View, ImageBackground, StyleSheet} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -53,55 +60,59 @@ const LoginScreen = () => {
       source={require('../../assets/background2.jpeg')}
       style={styles.wrapper}>
       {/* <AppCustomLogo containerStyles={styles.logoContainerStyles} /> */}
+      <KeyboardAvoidingView
+        style={{flex: 1, width: '100%', justifyContent: 'center'}}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <View style={styles.container}>
+          <Label20 style={styles.signInText}>Sign In</Label20>
+          <AppTextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            icon={'email'}
+            keyboardType="email-address"
+            placeholder={'Email Address'}
+            value={email}
+            onChangeText={val => {
+              setEmail(val);
+              setError('');
+            }}
+          />
+          <AppTextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            icon={'lock'}
+            placeholder={'Password'}
+            password
+            value={password}
+            onChangeText={val => {
+              setPassword(val);
+              setError('');
+            }}
+          />
+          {error && <Label11Light style={{color: 'red'}}>{error}</Label11Light>}
+          <Label12 style={styles.forgotPassword}>Forgot Password?</Label12>
+          <AppButton
+            title="Sign In"
+            onPress={handleSubmit}
+            //   disabled={!email || !isValidEmail(email) || !password}
+            buttonContainerStyles={styles.button}
+          />
+        </View>
 
-      <View style={styles.container}>
-        <Label20 style={styles.signInText}>Sign In</Label20>
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          icon={'email'}
-          keyboardType="email-address"
-          placeholder={'Email Address'}
-          value={email}
-          onChangeText={val => {
-            setEmail(val);
-            setError('');
-          }}
-        />
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          icon={'lock'}
-          placeholder={'Password'}
-          password
-          value={password}
-          onChangeText={val => {
-            setPassword(val);
-            setError('');
-          }}
-        />
-        {error && <Label11Light style={{color: 'red'}}>{error}</Label11Light>}
-        <Label12 style={styles.forgotPassword}>Forgot Password?</Label12>
-        <AppButton
-          title="Sign In"
-          onPress={handleSubmit}
-          //   disabled={!email || !isValidEmail(email) || !password}
-          buttonContainerStyles={styles.button}
-        />
-      </View>
-      {/* {!isKeyboardVisible && ( */}
-      <View style={styles.bottomContainer}>
-        <Label13 style={{color: theme.custom.white}}>
-          Don't have an account?
-        </Label13>
-        <Label13
-          style={{marginLeft: 5, color: theme.custom.orange}}
-          onPress={() => NavigationService.navigate('SignupScreen', {})}>
-          Register.
-        </Label13>
-      </View>
-      {/* )} */}
-      {/* <AppSpinner loading={isLoading} /> */}
+        {/* {!isKeyboardVisible && ( */}
+        <View style={styles.bottomContainer}>
+          <Label13 style={{color: theme.custom.white}}>
+            Don't have an account?
+          </Label13>
+          <Label13
+            style={{marginLeft: 5, color: theme.custom.orange}}
+            onPress={() => NavigationService.navigate('SignupScreen', {})}>
+            Register.
+          </Label13>
+        </View>
+        {/* )} */}
+        {/* <AppSpinner loading={isLoading} /> */}
+      </KeyboardAvoidingView>
     </ImageBackground>
   );
 };
@@ -109,6 +120,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: wp(8),
     backgroundColor: 'white',
   },
@@ -127,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingTop: wp(16),
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -135,6 +147,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     bottom: hp(3),
+    width: '100%',
+    justifyContent: 'center',
   },
   forgotPassword: {
     alignSelf: 'flex-end',

@@ -1,11 +1,13 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {
   View,
-  ImageBackground,
   StyleSheet,
   Image,
   TouchableOpacity,
   Text,
+  ScrollView,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -14,7 +16,12 @@ import {
 import DropDownPicker from 'react-native-dropdown-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-import {Label20, Label16, Label12,Label11Light} from '../../components/AppText';
+import {
+  Label20,
+  Label16,
+  Label12,
+  Label11Light,
+} from '../../components/AppText';
 import AppTextInput from '../../components/AppTextInput';
 import AppButton from '../../components/AppButton';
 import theme from '../../config/theme';
@@ -96,18 +103,21 @@ const ProfileScreen = ({route}) => {
           paddingHorizontal: wp(4),
           paddingVertical: wp(4),
         }}>
-        {route?.params?.signUp?
-         
-          <Label16 onPress={() => NavigationService.navigate("Home",null)} style={{color: 'white', fontWeight: 'bold'}}>Skip</Label16>:
-        
+        {route?.params?.signUp ? (
+          <Label16
+            onPress={() => NavigationService.navigate('Home', null)}
+            style={{color: 'white', fontWeight: 'bold'}}>
+            Skip
+          </Label16>
+        ) : (
           <TouchableOpacity onPress={() => NavigationService.goBack()}>
-          <Image
-            style={{height: wp(8), width: wp(8)}}
-            resizeMode="contain"
-            source={require('../../assets/white_x.png')}
-          />
-        </TouchableOpacity>
-        }
+            <Image
+              style={{height: wp(8), width: wp(8)}}
+              resizeMode="contain"
+              source={require('../../assets/white_x.png')}
+            />
+          </TouchableOpacity>
+        )}
         <Label16 style={{color: 'white', fontWeight: 'bold'}}>Profile</Label16>
         <TouchableOpacity onPress={handleSubmit}>
           <Image
@@ -117,135 +127,157 @@ const ProfileScreen = ({route}) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.container}>
-        <Image
-          source={require('../../assets/profile-placeholder.png')}
-          resizeMode="contain"
-          style={{
-            height: wp(20),
-            width: wp(20),
-            borderRadius: wp(10),
-            top: isKeyboardVisible ? wp(1) : wp(-9),
-          }}
-        />
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          placeholder={'Name'}
-          value={name}
-          onChangeText={val => {setName(val);setError("")}}
-        />
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          placeholder={'Profession'}
-          value={profession}
-          onChangeText={val => {setProfession(val);setError("")}}
-        />
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          placeholder={'Industry'}
-          value={industry}
-          onChangeText={val => {setIndustry(val);setError("");}}
-        />
-        <AppTextInput
-          autoCapitalize={'none'}
-          autoCorrect={false}
-          placeholder={'Country'}
-          value={country}
-          onChangeText={val => {setCountry(val);setError("");}}
-        />
-        {/* <DateTimePicker value={new Date()} maximumDate={new Date(2300, 10, 20)} /> */}
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'white',
-            borderColor: theme.custom.green,
-            borderWidth: 1,
-            color: '#636F82',
-            borderRadius: wp(1),
-            marginVertical: wp(3),
-            height: wp(10),
-            width: wp('83%'),
-            paddingHorizontal: wp(2),
-            paddingRight: 11,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-            // marginBottom: 20,
-          }}
-          onPress={() => {
-            setCalender(true);
-          }}>
-          {dateShow ? (
-            <Text style={{color: 'black'}}>{dateShow}</Text>
-          ) : (
-            <Text style={{color: 'black'}}>Date of Birth</Text>
-          )}
+      <KeyboardAvoidingView
+        style={{flex: 1, width: '100%'}}
+        behavior={Platform.OS === 'ios' ? 'padding' : ''}>
+        <ScrollView
+          style={{flex: 1, width: '100%'}}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <Image
+              source={require('../../assets/profile-placeholder.png')}
+              resizeMode="contain"
+              style={{
+                height: wp(20),
+                width: wp(20),
+                borderRadius: wp(10),
+                top: wp(-9),
+              }}
+            />
+            <AppTextInput
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              placeholder={'Name'}
+              value={name}
+              onChangeText={val => {
+                setName(val);
+                setError('');
+              }}
+            />
+            <AppTextInput
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              placeholder={'Profession'}
+              value={profession}
+              onChangeText={val => {
+                setProfession(val);
+                setError('');
+              }}
+            />
+            <AppTextInput
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              placeholder={'Industry'}
+              value={industry}
+              onChangeText={val => {
+                setIndustry(val);
+                setError('');
+              }}
+            />
+            <AppTextInput
+              autoCapitalize={'none'}
+              autoCorrect={false}
+              placeholder={'Country'}
+              value={country}
+              onChangeText={val => {
+                setCountry(val);
+                setError('');
+              }}
+            />
+            {/* <DateTimePicker value={new Date()} maximumDate={new Date(2300, 10, 20)} /> */}
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'white',
+                borderColor: theme.custom.green,
+                borderWidth: 1,
+                color: '#636F82',
+                borderRadius: wp(1),
+                marginVertical: wp(3),
+                height: wp(10),
+                width: wp('83%'),
+                paddingHorizontal: wp(2),
+                paddingRight: 11,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row',
+                // marginBottom: 20,
+              }}
+              onPress={() => {
+                setCalender(true);
+              }}>
+              {dateShow ? (
+                <Text style={{color: 'black'}}>{dateShow}</Text>
+              ) : (
+                <Text style={{color: 'black'}}>Date of Birth</Text>
+              )}
 
-          <DateTimePickerModal
-            isVisible={showCalender}
-            mode="date"
-            onConfirm={date => {
-              onDateChange(date);
-              setError("");
-            }}
-            onCancel={hideDatePicker}
-          />
-          <Image
-            style={{height: 20, width: 20}}
-            resizeMode="contain"
-            source={require('../../assets/chevron.png')}
-          />
-        </TouchableOpacity>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          dropDownDirection={"BOTTOM"}
-          style={{
-            backgroundColor: 'white',
-            borderColor: theme.custom.green,
-            borderWidth: 1.5,
-            color: 'black',
-            marginVertical: wp(3),
-          }}
-          onSelectItem={item => {
-            setGender(item.value);
-            setError("");
-          }}
-          placeholder={'Gender'}
-          placeholderStyle={{color: '#636F82'}}
-          labelStyle={{color: 'black'}}
-          dropDownContainerStyle={{
-            backgroundColor: theme.custom.white,
-            color: 'black',
-          }}
-          listItemLabelStyle={{
-            color: 'black',
-          }}
-          arrowIconStyle={{
-            color: 'white',
-          }}
-          closeIconStyle={{
-            color: 'white',
-          }}
-          iconContainerStyle={{
-            borderColor: 'red',
-            borderWidth: 1,
-          }}
-        />
-         {error && <Label11Light style={{color: 'red'}}>{error}</Label11Light>}
-        {/* <AppButton
+              <DateTimePickerModal
+                isVisible={showCalender}
+                mode="date"
+                onConfirm={date => {
+                  onDateChange(date);
+                  setError('');
+                }}
+                onCancel={hideDatePicker}
+              />
+              <Image
+                style={{height: 20, width: 20}}
+                resizeMode="contain"
+                source={require('../../assets/chevron.png')}
+              />
+            </TouchableOpacity>
+            <DropDownPicker
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              dropDownDirection={'BOTTOM'}
+              style={{
+                backgroundColor: 'white',
+                borderColor: theme.custom.green,
+                borderWidth: 1.5,
+                color: 'black',
+                marginVertical: wp(3),
+              }}
+              onSelectItem={item => {
+                setGender(item.value);
+                setError('');
+              }}
+              placeholder={'Gender'}
+              placeholderStyle={{color: '#636F82'}}
+              labelStyle={{color: 'black'}}
+              dropDownContainerStyle={{
+                backgroundColor: theme.custom.white,
+                color: 'black',
+              }}
+              listItemLabelStyle={{
+                color: 'black',
+              }}
+              arrowIconStyle={{
+                color: 'white',
+              }}
+              closeIconStyle={{
+                color: 'white',
+              }}
+              iconContainerStyle={{
+                borderColor: 'red',
+                borderWidth: 1,
+              }}
+            />
+            {error && (
+              <Label11Light style={{color: 'red'}}>{error}</Label11Light>
+            )}
+            {/* <AppButton
           title="Save"
           onPress={handleSubmit}
         //   disabled={!email || !isValidEmail(email) || !password}
           buttonStyles={styles.button}
         /> */}
-      </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -253,6 +285,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     alignItems: 'center',
+    // justifyContent: 'center',
     paddingHorizontal: wp(8),
     backgroundColor: 'white',
   },
@@ -271,7 +304,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingTop: wp(14),
-    flex: 1,
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
